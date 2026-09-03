@@ -616,7 +616,7 @@ st.markdown(
 )
 
 tab1, tab2, tab3 = st.tabs(
-    ["Evaluation", "Equations & methodology", "Original Excel File"]
+    ["Evaluation", "Equations & methodology", "Original Google Sheet"]
 )
 
 # ==========================================================
@@ -700,7 +700,7 @@ with tab1:
         "<div class='section-note'>Weighted contribution of each criterion, "
         "in points of the final 100.</div>",
         unsafe_allow_html=True,
-  )
+    )
     contrib = pd.DataFrame(
         {
             "Annual fuel cost": s_cost * w_cost / denom,
@@ -1020,80 +1020,25 @@ with tab2:
 
 
 # ==========================================================
-# TAB 3 — ORIGINAL EXCEL FILE EMBED & VIEWER
+# TAB 3 — LIVE EMBEDDED GOOGLE SHEET
 # ==========================================================
 with tab3:
   st.markdown(
       "<div class='section-title'>Original Energy Analysis Spreadsheet</div>"
-      "<div class='section-note'>Explore the raw underlying Excel calculations,"
-      " user inputs, assumptions, and decision logic directly inside this"
-      " view.</div>",
+      "<div class='section-note'>Explore the raw underlying Google Sheet"
+      " calculations, user inputs, assumptions, and decision logic directly"
+      " inside this view.</div>",
       unsafe_allow_html=True,
   )
 
-  # OPTION A: If you upload the Excel file to Google Drive or OneDrive/SharePoint,
-  # paste the embed URL here to get a fully live, editable embedded web sheet:
-  google_sheets_embed_url = ""  # e.g., "https://docs.google.com/spreadsheets/d/e/.../pubhtml?widget=true&amp;headers=false"
+  google_sheets_embed_url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRwZFbJQJ4W39YX3Y6V9XgWGUVuVbZ00v6ezkkcv1gVuWIe52T2T2xi0hG66wo_zGdNunhYOILyRzba/pubhtml?widget=true&headers=false"
 
-  if google_sheets_embed_url:
-    st.markdown(
-        f"<iframe src='{google_sheets_embed_url}' width='100%' height='750'"
-        " style='border:1px solid var(--hairline);border-radius:18px;"
-        "box-shadow:0 8px 28px var(--shadow);'></iframe>",
-        unsafe_allow_html=True,
-    )
-  else:
-    # OPTION B: Native Streamlit Sheet-by-Sheet Interactive Viewer
-    excel_filepath = "Copy of Energy Analysis Sheet for Takuo Yamamoto.xlsx"
-    try:
-      xls = pd.ExcelFile(excel_filepath)
-      sheet_names = xls.sheet_names
-
-      st.markdown(
-          "<div style='margin-bottom: 0.8rem; font-weight:500;"
-          " color:var(--subtle);'>Select Workbook Sheet:</div>",
-          unsafe_allow_html=True,
-      )
-      selected_sheet = st.selectbox("Sheet", sheet_names, label_visibility="collapsed")
-
-      sheet_df = pd.read_excel(excel_filepath, sheet_name=selected_sheet)
-
-      # Clean up unnamed column headers for presentation
-      sheet_df.columns = [
-          "" if str(col).startswith("Unnamed:") else str(col)
-          for col in sheet_df.columns
-      ]
-
-      st.dataframe(
-          sheet_df,
-          height=600,
-          use_container_width=True,
-      )
-
-      with open(excel_filepath, "rb") as file_bytes:
-        st.download_button(
-            label="Download Original .xlsx File",
-            data=file_bytes,
-            file_name="Energy_Analysis_Sheet_Takuo_Yamamoto.xlsx",
-            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        )
-
-    except FileNotFoundError:
-      st.markdown(
-          """
-            <div class='card' style='text-align:center;padding:3.2rem 2rem;'>
-              <div style='font-size:1.25rem;font-weight:600;letter-spacing:-0.02em;color:var(--ink);'>
-                Original Excel File Not Found
-              </div>
-              <div style='color:var(--subtle);font-size:0.95rem;margin-top:0.5rem;
-                          max-width:50ch;margin-left:auto;margin-right:auto;'>
-                Please place <b>Copy of Energy Analysis Sheet for Takuo Yamamoto.xlsx</b>
-                in the root directory of your app project.
-              </div>
-            </div>
-            """,
-          unsafe_allow_html=True,
-      )
+  st.markdown(
+      f"<iframe src='{google_sheets_embed_url}' width='100%' height='800'"
+      " style='border:1px solid var(--hairline);border-radius:18px;"
+      "box-shadow:0 8px 28px var(--shadow);'></iframe>",
+      unsafe_allow_html=True,
+  )
 
 st.markdown(
     "<div style='text-align:center;color:var(--subtle);font-size:0.8rem;"
