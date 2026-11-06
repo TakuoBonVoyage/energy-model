@@ -11,6 +11,7 @@ st.set_page_config(
     page_title="Powertrain Energy Model",
     page_icon="⚡",
     layout="wide",
+    initial_sidebar_state="expanded",
 )
 
 # ==========================================================
@@ -261,6 +262,27 @@ st.markdown(
       .footer a {{ color: var(--accent); text-decoration: none; font-weight: 500; }}
       .footer a:hover {{ text-decoration: underline; }}
 
+      /* Settings rail on the right (was the left sidebar in earlier versions) */
+      [data-testid="stAppViewContainer"] {{ flex-direction: row-reverse; }}
+      [data-testid="stSidebar"] {{
+        background: var(--surface-2);
+        border-left: 1px solid var(--hairline);
+      }}
+      [data-testid="stSidebar"][aria-expanded="false"] {{ transform: none !important; }}
+      [data-testid="stSidebarResizeHandle"] {{ display: none !important; }}
+      [data-testid="stSidebarCollapseButton"] svg {{ transform: scaleX(-1); }}
+      button[data-testid="stExpandSidebarButton"] {{
+        position: fixed; right: 0.7rem; top: 3.6rem; z-index: 99998;
+        background: var(--surface); border: 1px solid var(--hairline);
+        border-radius: 999px;
+      }}
+      button[data-testid="stExpandSidebarButton"] svg {{ transform: scaleX(-1); }}
+      @media (max-width: 768px) {{
+        [data-testid="stSidebar"][aria-expanded="true"] {{
+          box-shadow: -1.5rem 0 2rem 0.5rem rgba(46, 42, 35, 0.18);
+        }}
+      }}
+
       @media (prefers-reduced-motion: no-preference) {{
         @keyframes riseIn {{
           from {{ opacity: 0; transform: translateY(12px); }}
@@ -376,16 +398,16 @@ st.markdown(
     "<div class='title-rule'></div>"
     "<div class='standfirst'>A physics-driven comparison of diesel, hydrogen"
     " fuel-cell and battery-electric drivetrains — built on tractive energy"
-    " requirements, not spec sheets. Set the route and costs below; the"
+    " requirements, not spec sheets. Set the route and costs in the settings panel; the"
     " truck’s specifications live under Advanced settings.</div>"
     "</div>",
     unsafe_allow_html=True,
 )
 
 # ==========================================================
-# CONTROL PANEL — INPUTS (main flow, no sidebar)
+# SETTINGS RAIL — INPUTS (right-hand sidebar)
 # ==========================================================
-with st.container(border=True):
+with st.sidebar:
   st.markdown(
       "<div class='panel-title'>Model inputs</div>"
       "<div class='panel-note'>Set the route, the prices and what matters to "
@@ -395,17 +417,12 @@ with st.container(border=True):
 
   # 1. ROUTE & SPEED PARAMETERS
   st.markdown("<div class='in-group'>Route</div>", unsafe_allow_html=True)
-  r1, r2, r3, r4 = st.columns(4)
-  with r1:
-    route_dist = st.slider("Daily route distance (miles)", 5, 500, 15, step=5)
-  with r2:
-    operating_days = st.number_input(
-        "Operating days per year", 100, 365, 355, step=5
-    )
-  with r3:
-    n_stops = st.slider("Stops per day", 0, 400, 100, step=10)
-  with r4:
-    avg_speed = st.slider("Average operating speed (mph)", 5, 65, 15, step=1)
+  route_dist = st.slider("Daily route distance (miles)", 5, 500, 15, step=5)
+  operating_days = st.number_input(
+      "Operating days per year", 100, 365, 355, step=5
+  )
+  n_stops = st.slider("Stops per day", 0, 400, 100, step=10)
+  avg_speed = st.slider("Average operating speed (mph)", 5, 65, 15, step=1)
 
   # 2. DECISION WEIGHTS
   st.markdown(
@@ -426,33 +443,27 @@ with st.container(border=True):
         f"{st.session_state['_capped']} was capped so the total stays at 100%."
     )
 
-  wcols = st.columns(5)
-  for i, (key, (label, _default)) in enumerate(WEIGHTS.items()):
+  for key, (label, _default) in WEIGHTS.items():
     headroom = WEIGHT_CAP - sum(
         st.session_state[k] for k in WEIGHTS if k != key
     )
-    with wcols[i]:
-      st.slider(
-          label,
-          min_value=0,
-          max_value=WEIGHT_CAP,
-          step=5,
-          key=key,
-          on_change=clamp_weights,
-          args=(key,),
-      )
+    st.slider(
+        label,
+        min_value=0,
+        max_value=WEIGHT_CAP,
+        step=5,
+        key=key,
+        on_change=clamp_weights,
+        args=(key,),
+    )
 
   # 3. ENERGY PRICES
   st.markdown(
       "<div class='in-group'>Energy prices</div>", unsafe_allow_html=True
   )
-  p1, p2, p3 = st.columns(3)
-  with p1:
-    diesel_price = st.number_input("Diesel ($/gal)", 1.0, 15.0, 5.30, step=0.10)
-  with p2:
-    h2_price = st.number_input("Hydrogen ($/kg)", 1.0, 60.0, 33.00, step=1.00)
-  with p3:
-    elec_price = st.number_input("Electricity ($/kWh)", 0.02, 1.00, 0.31, step=0.01)
+  diesel_price = st.number_input("Diesel ($/gal)", 1.0, 15.0, 5.30, step=0.10)
+  h2_price = st.number_input("Hydrogen ($/kg)", 1.0, 60.0, 33.00, step=1.00)
+  elec_price = st.number_input("Electricity ($/kWh)", 0.02, 1.00, 0.31, step=0.01)
 
   # 4. ADVANCED SETTINGS DROPDOWN
   with st.expander("Advanced settings"):
@@ -463,64 +474,52 @@ with st.container(border=True):
     )
 
     st.markdown("<div class='in-group'>Vehicle</div>", unsafe_allow_html=True)
-    v1, v2, v3 = st.columns(3)
-    with v1:
-      curb_weight = st.number_input(
-          "Chassis curb weight (lbs)", 10000, 60000, 30000, step=1000
-      )
-    with v2:
-      payload = st.number_input(
-          "Payload requirement (lbs)", 0, 60000, 20000, step=1000
-      )
-    with v3:
-      gvwr = st.number_input(
-          "GVWR — max legal gross weight (lbs)", 20000, 90000, 66000, step=1000
-      )
+    curb_weight = st.number_input(
+        "Chassis curb weight (lbs)", 10000, 60000, 30000, step=1000
+    )
+    payload = st.number_input(
+        "Payload requirement (lbs)", 0, 60000, 20000, step=1000
+    )
+    gvwr = st.number_input(
+        "GVWR — max legal gross weight (lbs)", 20000, 90000, 66000, step=1000
+    )
 
     st.markdown(
         "<div class='in-group'>Energy storage</div>", unsafe_allow_html=True
     )
-    s1, s2, s3, s4 = st.columns(4)
-    with s1:
-      h2_grav = st.slider(
-          "H₂ tank system capacity (% H₂ by mass)", 2.0, 10.0, 5.7, step=0.1
-      )
-    with s2:
-      pack_factor = st.slider(
-          "Battery pack integration factor", 0.50, 1.00, 0.70, step=0.01
-      )
-    with s3:
-      dod = st.slider("Usable depth of discharge (%)", 50, 100, 90, step=5)
-    with s4:
-      diesel_tank_pct = st.slider(
-          "Diesel tank + hardware (% of fuel mass)", 0, 60, 20, step=5
-      )
+    h2_grav = st.slider(
+        "H₂ tank system capacity (% H₂ by mass)", 2.0, 10.0, 5.7, step=0.1
+    )
+    pack_factor = st.slider(
+        "Battery pack integration factor", 0.50, 1.00, 0.70, step=0.01
+    )
+    dod = st.slider("Usable depth of discharge (%)", 50, 100, 90, step=5)
+    diesel_tank_pct = st.slider(
+        "Diesel tank + hardware (% of fuel mass)", 0, 60, 20, step=5
+    )
 
     st.markdown(
-        "<div class='in-group'>Road load & launch</div>", unsafe_allow_html=True
+        "<div class='in-group'>Road load</div>", unsafe_allow_html=True
     )
-    l1, l2, l3, l4 = st.columns(4)
-    with l1:
-      cd = st.slider("Drag coefficient Cd", 0.40, 1.20, 0.90, step=0.01)
-    with l2:
-      frontal_area = st.slider("Frontal area (m²)", 4.0, 14.0, 10.0, step=0.5)
-    with l3:
-      crr = st.slider(
-          "Rolling resistance C_rr",
-          0.004,
-          0.020,
-          0.010,
-          step=0.001,
-          format="%.3f",
-      )
-    with l4:
-      accel_rate = st.slider(
-          "Acceleration rate (m/s²)", 0.30, 3.00, 1.36, step=0.02
-      )
+    cd = st.slider("Drag coefficient Cd", 0.40, 1.20, 0.90, step=0.01)
+    frontal_area = st.slider("Frontal area (m²)", 4.0, 14.0, 10.0, step=0.5)
+    crr = st.slider(
+        "Rolling resistance C_rr",
+        0.004,
+        0.020,
+        0.010,
+        step=0.001,
+        format="%.3f",
+    )
+
+    st.markdown(
+        "<div class='in-group'>Launch behavior</div>", unsafe_allow_html=True
+    )
+    accel_rate = st.slider(
+        "Acceleration rate (m/s²)", 0.30, 3.00, 1.36, step=0.02
+    )
     _v_ms = avg_speed * MPH_TO_MS
     t_accel = _v_ms / accel_rate
-
-st.markdown("<div style='height:0.6rem'></div>", unsafe_allow_html=True)
 
 w_cost = st.session_state["w_cost"]
 w_mass = st.session_state["w_mass"]
