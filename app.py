@@ -847,7 +847,7 @@ with tab1:
         hoverlabel=dict(font=dict(family=FONT_FAMILY, size=13),
             bgcolor="#fdfaf3", bordercolor="rgba(46,42,35,0.25)"),
         xaxis=dict(title="MJ per day", gridcolor="rgba(46,42,35,0.09)",
-            range=[0, breakdown["MJ"].max() * 1.42]),
+            range=[0, breakdown["MJ"].max() * 1.62]),
         yaxis=dict(gridcolor="rgba(46,42,35,0.09)"),
         plot_bgcolor="rgba(0,0,0,0)",
         paper_bgcolor="rgba(0,0,0,0)",
