@@ -270,13 +270,17 @@ st.markdown(
       }}
       [data-testid="stSidebar"][aria-expanded="false"] {{ transform: none !important; }}
       [data-testid="stSidebarResizeHandle"] {{ display: none !important; }}
-      [data-testid="stSidebarCollapseButton"] svg {{ transform: scaleX(-1); }}
+      [data-testid="stSidebarCollapseButton"] [data-testid="stIconMaterial"] {{
+        transform: scaleX(-1); display: inline-block;
+      }}
       button[data-testid="stExpandSidebarButton"] {{
         position: fixed; right: 0.7rem; top: 3.6rem; z-index: 99998;
         background: var(--surface); border: 1px solid var(--hairline);
         border-radius: 999px;
       }}
-      button[data-testid="stExpandSidebarButton"] svg {{ transform: scaleX(-1); }}
+      button[data-testid="stExpandSidebarButton"] [data-testid="stIconMaterial"] {{
+        transform: scaleX(-1); display: inline-block;
+      }}
       @media (max-width: 768px) {{
         [data-testid="stSidebar"][aria-expanded="true"] {{
           box-shadow: -1.5rem 0 2rem 0.5rem rgba(46, 42, 35, 0.18);
