@@ -11,22 +11,21 @@ st.set_page_config(
     page_title="Powertrain Energy Model",
     page_icon="⚡",
     layout="wide",
-    initial_sidebar_state="expanded",
 )
 
 # ==========================================================
-# DESIGN TOKENS & VIBRANT PALETTE
+# DESIGN TOKENS & EDITORIAL CREAM PALETTE
 # ==========================================================
-C_DIESEL = "#94A3B8"  # Bright slate (dark-theme)
-C_HYDROGEN = "#38BDF8"  # Electric sky (dark-theme)
-C_BATTERY = "#A3E635"  # Energy lime (dark-theme)
+C_DIESEL = "#8c7a6b"  # Warm taupe
+C_HYDROGEN = "#4f7f8c"  # Muted teal
+C_BATTERY = "#c4552d"  # Terracotta
 
 PALETTE = [
-    "#38BDF8",  # Electric sky
-    "#A3E635",  # Energy lime
-    "#C084FC",  # Bright violet
-    "#FBBF24",  # Warm amber
-    "#FB7185",  # Bright coral
+    "#4f7f8c",  # Muted teal
+    "#c4552d",  # Terracotta
+    "#a08c5b",  # Ochre
+    "#7c6b8f",  # Muted violet
+    "#6b7c5e",  # Sage
 ]
 
 FONT_FAMILY = (
@@ -34,7 +33,7 @@ FONT_FAMILY = (
     " 'Helvetica Neue', sans-serif"
 )
 DISPLAY_FONT = (
-    "'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif"
+    "'Fraunces', Georgia, 'Times New Roman', serif"
 )
 
 TECH_COLORS = {
@@ -46,37 +45,30 @@ TECH_COLORS = {
 st.markdown(
     f"""
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&display=swap');
 
       :root {{
-        color-scheme: dark;
-        --ink: #e8edf3;
-        --subtle: #8b97a6;
-        --hairline: rgba(255, 255, 255, 0.09);
-        --canvas: #0e1319;
-        --surface: #151d27;
-        --surface-2: #1a2431;
-        --accent: #a3e635;
-        --glow: rgba(163, 230, 53, 0.16);
-        --danger: #fb7185;
-      }}
-
-      html, body, [class*="css"], .stApp {{
-        font-family: {FONT_FAMILY};
-        color: var(--ink);
+        color-scheme: light;
+        --ink: #2e2a23;
+        --subtle: #7d7466;
+        --hairline: rgba(46, 42, 35, 0.16);
+        --canvas: #f5f0e6;
+        --surface: #fdfaf3;
+        --surface-2: #efe8d9;
+        --accent: #c4552d;
+        --danger: #b3402e;
       }}
 
       .stApp {{
         background:
-          radial-gradient(1100px 480px at 12% -8%, rgba(163, 230, 53, 0.055), transparent 60%),
-          radial-gradient(900px 420px at 88% -6%, rgba(56, 189, 248, 0.05), transparent 55%),
+          radial-gradient(1000px 460px at 50% -10%, rgba(196, 85, 45, 0.045), transparent 60%),
           var(--canvas);
       }}
 
       .block-container {{
-        padding-top: 2rem;
+        padding-top: 1.4rem;
         padding-bottom: 3rem;
-        max-width: 1240px;
+        max-width: 1060px;
       }}
 
       header[data-testid="stHeader"] {{
@@ -89,56 +81,57 @@ st.markdown(
         display: none !important;
       }}
 
-      [data-testid="stSidebarCollapsedControl"],
-      [data-testid="stSidebarExpandButton"] {{
-        visibility: visible !important;
-        display: flex !important;
-        opacity: 1 !important;
-        color: var(--ink) !important;
+      .masthead {{
+        display: flex; align-items: baseline; justify-content: space-between;
+        gap: 1rem; padding: 0.55rem 0 0.6rem 0;
+        border-top: 1px solid var(--ink);
+        border-bottom: 3px double var(--ink);
+        font-size: 0.78rem; font-weight: 600;
+        letter-spacing: 0.16em; text-transform: uppercase;
+        color: var(--ink);
+      }}
+      .masthead .mh-right {{
+        color: var(--subtle); font-weight: 500; letter-spacing: 0.12em;
       }}
 
-      .topbar {{
-        display: flex; align-items: center; justify-content: space-between;
-        gap: 1rem; margin-bottom: 2.2rem;
-      }}
-      .brand {{
-        display: flex; align-items: center; gap: 0.7rem;
-        font-family: {DISPLAY_FONT}; font-weight: 700; font-size: 0.95rem;
-        letter-spacing: 0.02em; color: var(--ink);
-      }}
-      .brand-mark {{
-        width: 26px; height: 26px; border-radius: 8px;
-        background: var(--accent); color: #10150a;
-        display: inline-flex; align-items: center; justify-content: center;
-        font-size: 0.95rem; font-weight: 700;
-        box-shadow: 0 0 18px var(--glow);
-      }}
-      .byline {{
-        font-size: 0.82rem; color: var(--subtle); letter-spacing: 0.01em;
-      }}
-      .byline b {{ color: var(--ink); font-weight: 600; }}
-
-      .eyebrow {{
-        font-size: 0.74rem; font-weight: 600; letter-spacing: 0.14em;
-        text-transform: uppercase; color: var(--accent); margin-bottom: 0.6rem;
-      }}
-      .headline {{
+      .titleblock {{ text-align: center; margin: 2.3rem 0 2.3rem 0; }}
+      .title-serif {{
         font-family: {DISPLAY_FONT};
-        font-size: 3rem; font-weight: 700; letter-spacing: -0.03em;
-        line-height: 1.04; color: var(--ink); margin: 0 0 0.35rem 0;
+        font-size: 2.85rem; font-weight: 600; letter-spacing: -0.015em;
+        line-height: 1.08; color: var(--ink);
       }}
-      .headline-accent {{
-        display: block; height: 4px; width: 148px; border-radius: 99px;
-        background: linear-gradient(90deg, var(--accent), #38bdf8);
-        margin: 0.55rem 0 0.9rem 0; transform-origin: left center;
+      .title-rule {{
+        position: relative; width: 220px; margin: 1.05rem auto 0.95rem auto;
+        border-top: 1px solid var(--hairline);
+        transform-origin: center;
       }}
-      .subhead {{
-        font-size: 1.02rem; font-weight: 400; color: var(--subtle);
-        letter-spacing: -0.003em; line-height: 1.6; max-width: 66ch; margin-bottom: 1.9rem;
+      .title-rule::after {{
+        content: ""; position: absolute; left: 50%; top: -3.5px;
+        width: 6px; height: 6px; transform: translateX(-50%) rotate(45deg);
+        background: var(--accent);
       }}
+      .standfirst {{
+        font-family: {DISPLAY_FONT}; font-style: italic; font-weight: 400;
+        font-size: 1.06rem; color: var(--subtle); line-height: 1.65;
+        max-width: 62ch; margin: 0 auto;
+      }}
+
+      .panel-title {{
+        font-family: {DISPLAY_FONT};
+        font-size: 1.3rem; font-weight: 600; letter-spacing: -0.01em;
+        color: var(--ink);
+      }}
+      .panel-note {{
+        font-size: 0.88rem; color: var(--subtle); margin: 0.2rem 0 0.4rem 0;
+      }}
+      .in-group {{
+        font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em;
+        text-transform: uppercase; color: var(--subtle); margin: 1.05rem 0 0.15rem 0;
+      }}
+
       .section-title {{
         font-family: {DISPLAY_FONT};
-        font-size: 1.32rem; font-weight: 600; letter-spacing: -0.015em;
+        font-size: 1.4rem; font-weight: 600; letter-spacing: -0.012em;
         color: var(--ink); margin: 0 0 0.25rem 0;
       }}
       .section-note {{
@@ -146,13 +139,13 @@ st.markdown(
       }}
 
       .card {{
-        background: var(--surface); border-radius: 14px; padding: 1.4rem 1.5rem;
+        background: var(--surface); border-radius: 6px; padding: 1.4rem 1.5rem;
         border: 1px solid var(--hairline); margin-bottom: 1rem;
       }}
 
       .hero {{
-        background: linear-gradient(180deg, var(--surface-2), var(--surface));
-        border-radius: 14px; padding: 1.5rem 1.6rem;
+        background: var(--surface);
+        border-radius: 6px; padding: 1.5rem 1.6rem;
         border: 1px solid var(--hairline);
         margin-bottom: 1.2rem; height: 100%;
       }}
@@ -162,16 +155,16 @@ st.markdown(
       }}
       .hero-tech {{
         font-family: {DISPLAY_FONT};
-        font-size: 2.3rem; font-weight: 700; letter-spacing: -0.025em;
+        font-size: 2.35rem; font-weight: 600; letter-spacing: -0.02em;
         line-height: 1.1; margin: 0.35rem 0 0.25rem 0;
       }}
       .hero-reason {{
-        font-size: 0.94rem; color: var(--subtle); line-height: 1.6;
+        font-size: 0.94rem; color: var(--subtle); line-height: 1.65;
         max-width: 56ch; margin-top: 0.45rem;
       }}
       .hero-score {{
         font-family: {DISPLAY_FONT};
-        font-size: 3.6rem; font-weight: 700; letter-spacing: -0.035em;
+        font-size: 3.5rem; font-weight: 600; letter-spacing: -0.03em;
         line-height: 1; text-align: right;
       }}
       .hero-score-unit {{
@@ -183,13 +176,13 @@ st.markdown(
       }}
 
       .score-card {{
-        background: var(--surface); border-radius: 14px; padding: 1.2rem 1.3rem 1.3rem 1.3rem;
-        border: 1px solid var(--hairline); height: 100%;
-        transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+        background: var(--surface); border-radius: 6px;
+        padding: 1.2rem 1.3rem 1.3rem 1.3rem;
+        border: 1px solid var(--hairline); margin-bottom: 1rem;
       }}
       .score-card.win {{
-        border-color: rgba(163, 230, 53, 0.55);
-        box-shadow: 0 0 0 1px rgba(163, 230, 53, 0.35), 0 10px 30px rgba(163, 230, 53, 0.07);
+        border-color: rgba(196, 85, 45, 0.55);
+        box-shadow: 0 0 0 1px rgba(196, 85, 45, 0.28), 0 10px 26px rgba(196, 85, 45, 0.08);
       }}
       .score-tech {{
         font-size: 0.95rem; font-weight: 600; letter-spacing: -0.005em;
@@ -198,12 +191,12 @@ st.markdown(
       .dot {{ width: 8px; height: 8px; border-radius: 50%; display: inline-block; }}
       .score-value {{
         font-family: {DISPLAY_FONT};
-        font-size: 2.7rem; font-weight: 700; letter-spacing: -0.03em;
+        font-size: 2.65rem; font-weight: 600; letter-spacing: -0.025em;
         line-height: 1.05; margin-top: 0.4rem;
       }}
       .score-sub {{ font-size: 0.8rem; color: var(--subtle); letter-spacing: 0.01em; }}
       .bar-track {{
-        height: 5px; border-radius: 99px; background: rgba(255, 255, 255, 0.1);
+        height: 5px; border-radius: 99px; background: rgba(46, 42, 35, 0.12);
         margin: 0.85rem 0 0.75rem 0; overflow: hidden;
       }}
       .bar-fill {{ height: 5px; border-radius: 99px; }}
@@ -217,18 +210,18 @@ st.markdown(
       .score-card.out {{ opacity: 0.55; }}
       .kv span.warn {{ color: var(--danger); font-weight: 600; }}
       .badge {{
-        display: inline-block; background: rgba(163, 230, 53, 0.12); color: var(--accent);
-        border: 1px solid rgba(163, 230, 53, 0.4);
+        display: inline-block; background: rgba(196, 85, 45, 0.1); color: var(--accent);
+        border: 1px solid rgba(196, 85, 45, 0.42);
         font-size: 0.66rem; font-weight: 700; letter-spacing: 0.07em;
         text-transform: uppercase; padding: 0.18rem 0.5rem; border-radius: 99px; margin-left: 0.4rem;
       }}
       .badge.fail {{
-        background: rgba(251, 113, 133, 0.1); color: var(--danger);
-        border-color: rgba(251, 113, 133, 0.4);
+        background: rgba(179, 64, 46, 0.08); color: var(--danger);
+        border-color: rgba(179, 64, 46, 0.4);
       }}
 
       .budget-track {{
-        height: 6px; border-radius: 99px; background: rgba(255, 255, 255, 0.1);
+        height: 6px; border-radius: 99px; background: rgba(46, 42, 35, 0.12);
         overflow: hidden; margin: 0.4rem 0 0.35rem 0;
       }}
       .budget-fill {{ height: 6px; border-radius: 99px; background: var(--accent); }}
@@ -241,18 +234,8 @@ st.markdown(
       }}
       .eq-title {{
         font-family: {DISPLAY_FONT};
-        font-size: 1.05rem; font-weight: 600; letter-spacing: -0.01em;
+        font-size: 1.08rem; font-weight: 600; letter-spacing: -0.01em;
         color: var(--ink); margin: 0.15rem 0 0.1rem 0;
-      }}
-
-      [data-testid="stSidebar"] {{
-        background: #11181f; border-right: 1px solid var(--hairline);
-      }}
-      [data-testid="stSidebar"] .block-container {{ padding-top: 1.5rem; }}
-
-      .side-group {{
-        font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em;
-        text-transform: uppercase; color: var(--subtle); margin: 1.25rem 0 0.35rem 0;
       }}
 
       .stTabs [data-baseweb="tab-list"] {{
@@ -264,12 +247,12 @@ st.markdown(
       }}
       .stTabs [aria-selected="true"] {{ color: var(--ink); font-weight: 600; border-bottom-color: var(--accent) !important; }}
 
-      div[data-testid="stDataFrame"] {{ border-radius: 10px; overflow: hidden; border: 1px solid var(--hairline); }}
+      div[data-testid="stDataFrame"] {{ border-radius: 6px; overflow: hidden; border: 1px solid var(--hairline); }}
       hr.rule {{ border: none; border-top: 1px solid var(--hairline); margin: 2.2rem 0 1.6rem 0; }}
 
       .footer {{
         margin-top: 3rem; padding-top: 1.4rem;
-        border-top: 1px solid var(--hairline);
+        border-top: 3px double var(--ink);
         display: flex; flex-wrap: wrap; gap: 0.4rem 1.4rem;
         align-items: baseline; justify-content: space-between;
         font-size: 0.82rem; color: var(--subtle);
@@ -286,24 +269,21 @@ st.markdown(
         @keyframes barGrow {{
           from {{ width: 0; }}
         }}
-        @keyframes sweepIn {{
+        @keyframes ruleDraw {{
           from {{ transform: scaleX(0); }}
           to {{ transform: scaleX(1); }}
         }}
         .hero, .score-card, .card {{
           animation: riseIn 0.45s ease both;
         }}
-        .headline-accent {{ animation: sweepIn 0.7s cubic-bezier(0.2, 0.6, 0.2, 1) 0.1s both; }}
-        [data-testid="column"]:nth-child(1) .score-card {{ animation-delay: 0.05s; }}
-        [data-testid="column"]:nth-child(2) .score-card {{ animation-delay: 0.12s; }}
-        [data-testid="column"]:nth-child(3) .score-card {{ animation-delay: 0.19s; }}
+        .title-rule {{ animation: ruleDraw 0.7s cubic-bezier(0.2, 0.6, 0.2, 1) 0.1s both; }}
         .score-card:hover {{
           transform: translateY(-2px);
-          border-color: rgba(255, 255, 255, 0.22);
+          border-color: rgba(46, 42, 35, 0.32);
         }}
         .score-card.win:hover {{
-          border-color: rgba(163, 230, 53, 0.7);
-          box-shadow: 0 0 0 1px rgba(163, 230, 53, 0.45), 0 14px 34px rgba(163, 230, 53, 0.1);
+          border-color: rgba(196, 85, 45, 0.65);
+          box-shadow: 0 0 0 1px rgba(196, 85, 45, 0.4), 0 14px 30px rgba(196, 85, 45, 0.1);
         }}
         .bar-fill, .budget-fill {{
           animation: barGrow 0.8s cubic-bezier(0.2, 0.6, 0.2, 1) both;
@@ -384,30 +364,33 @@ def clamp_weights(changed_key: str) -> None:
 
 
 # ==========================================================
-# SIDEBAR — INPUTS
+# CONTROL PANEL — INPUTS (main flow, no sidebar)
 # ==========================================================
-with st.sidebar:
+with st.container(border=True):
   st.markdown(
-      "<div style='font-size:1.15rem;font-weight:600;letter-spacing:-0.02em;color:var(--ink);'>"
-      "Model inputs</div>"
-      "<div style='font-size:0.86rem;color:var(--subtle);margin-top:0.15rem;'>"
-      "Set the route, the prices and what matters to you. Everything else "
-      "lives under Advanced settings.</div>",
+      "<div class='panel-title'>Model inputs</div>"
+      "<div class='panel-note'>Set the route, the prices and what matters to "
+      "you. Everything else lives under Advanced settings.</div>",
       unsafe_allow_html=True,
   )
 
   # 1. ROUTE & SPEED PARAMETERS
-  st.markdown("<div class='side-group'>Route</div>", unsafe_allow_html=True)
-  route_dist = st.slider("Daily route distance (miles)", 5, 500, 15, step=5)
-  operating_days = st.number_input(
-      "Operating days per year", 100, 365, 355, step=5
-  )
-  n_stops = st.slider("Stops per day", 0, 400, 100, step=10)
-  avg_speed = st.slider("Average operating speed (mph)", 5, 65, 15, step=1)
+  st.markdown("<div class='in-group'>Route</div>", unsafe_allow_html=True)
+  r1, r2, r3, r4 = st.columns(4)
+  with r1:
+    route_dist = st.slider("Daily route distance (miles)", 5, 500, 15, step=5)
+  with r2:
+    operating_days = st.number_input(
+        "Operating days per year", 100, 365, 355, step=5
+    )
+  with r3:
+    n_stops = st.slider("Stops per day", 0, 400, 100, step=10)
+  with r4:
+    avg_speed = st.slider("Average operating speed (mph)", 5, 65, 15, step=1)
 
   # 2. DECISION WEIGHTS
   st.markdown(
-      "<div class='side-group'>Decision weights</div>", unsafe_allow_html=True
+      "<div class='in-group'>Decision weights</div>", unsafe_allow_html=True
   )
   used = sum(st.session_state[k] for k in WEIGHTS)
   remaining = WEIGHT_CAP - used
@@ -424,27 +407,33 @@ with st.sidebar:
         f"{st.session_state['_capped']} was capped so the total stays at 100%."
     )
 
-  for key, (label, _default) in WEIGHTS.items():
+  wcols = st.columns(5)
+  for i, (key, (label, _default)) in enumerate(WEIGHTS.items()):
     headroom = WEIGHT_CAP - sum(
         st.session_state[k] for k in WEIGHTS if k != key
     )
-    st.slider(
-        label,
-        min_value=0,
-        max_value=WEIGHT_CAP,
-        step=5,
-        key=key,
-        on_change=clamp_weights,
-        args=(key,),
-    )
+    with wcols[i]:
+      st.slider(
+          label,
+          min_value=0,
+          max_value=WEIGHT_CAP,
+          step=5,
+          key=key,
+          on_change=clamp_weights,
+          args=(key,),
+      )
 
   # 3. ENERGY PRICES
   st.markdown(
-      "<div class='side-group'>Energy prices</div>", unsafe_allow_html=True
+      "<div class='in-group'>Energy prices</div>", unsafe_allow_html=True
   )
-  diesel_price = st.number_input("Diesel ($/gal)", 1.0, 15.0, 5.30, step=0.10)
-  h2_price = st.number_input("Hydrogen ($/kg)", 1.0, 60.0, 33.00, step=1.00)
-  elec_price = st.number_input("Electricity ($/kWh)", 0.02, 1.00, 0.31, step=0.01)
+  p1, p2, p3 = st.columns(3)
+  with p1:
+    diesel_price = st.number_input("Diesel ($/gal)", 1.0, 15.0, 5.30, step=0.10)
+  with p2:
+    h2_price = st.number_input("Hydrogen ($/kg)", 1.0, 60.0, 33.00, step=1.00)
+  with p3:
+    elec_price = st.number_input("Electricity ($/kWh)", 0.02, 1.00, 0.31, step=0.01)
 
   # 4. ADVANCED SETTINGS DROPDOWN
   with st.expander("Advanced settings"):
@@ -454,53 +443,65 @@ with st.sidebar:
         "they are for a standard run."
     )
 
-    st.markdown("<div class='side-group'>Vehicle</div>", unsafe_allow_html=True)
-    curb_weight = st.number_input(
-        "Chassis curb weight (lbs)", 10000, 60000, 30000, step=1000
-    )
-    payload = st.number_input(
-        "Payload requirement (lbs)", 0, 60000, 20000, step=1000
-    )
-    gvwr = st.number_input(
-        "GVWR — max legal gross weight (lbs)", 20000, 90000, 66000, step=1000
-    )
+    st.markdown("<div class='in-group'>Vehicle</div>", unsafe_allow_html=True)
+    v1, v2, v3 = st.columns(3)
+    with v1:
+      curb_weight = st.number_input(
+          "Chassis curb weight (lbs)", 10000, 60000, 30000, step=1000
+      )
+    with v2:
+      payload = st.number_input(
+          "Payload requirement (lbs)", 0, 60000, 20000, step=1000
+      )
+    with v3:
+      gvwr = st.number_input(
+          "GVWR — max legal gross weight (lbs)", 20000, 90000, 66000, step=1000
+      )
 
     st.markdown(
-        "<div class='side-group'>Energy storage</div>", unsafe_allow_html=True
+        "<div class='in-group'>Energy storage</div>", unsafe_allow_html=True
     )
-    h2_grav = st.slider(
-        "H₂ tank system capacity (% H₂ by mass)", 2.0, 10.0, 5.7, step=0.1
-    )
-    pack_factor = st.slider(
-        "Battery pack integration factor", 0.50, 1.00, 0.70, step=0.01
-    )
-    dod = st.slider("Usable depth of discharge (%)", 50, 100, 90, step=5)
-    diesel_tank_pct = st.slider(
-        "Diesel tank + hardware (% of fuel mass)", 0, 60, 20, step=5
-    )
+    s1, s2, s3, s4 = st.columns(4)
+    with s1:
+      h2_grav = st.slider(
+          "H₂ tank system capacity (% H₂ by mass)", 2.0, 10.0, 5.7, step=0.1
+      )
+    with s2:
+      pack_factor = st.slider(
+          "Battery pack integration factor", 0.50, 1.00, 0.70, step=0.01
+      )
+    with s3:
+      dod = st.slider("Usable depth of discharge (%)", 50, 100, 90, step=5)
+    with s4:
+      diesel_tank_pct = st.slider(
+          "Diesel tank + hardware (% of fuel mass)", 0, 60, 20, step=5
+      )
 
     st.markdown(
-        "<div class='side-group'>Road load</div>", unsafe_allow_html=True
+        "<div class='in-group'>Road load & launch</div>", unsafe_allow_html=True
     )
-    cd = st.slider("Drag coefficient Cd", 0.40, 1.20, 0.90, step=0.01)
-    frontal_area = st.slider("Frontal area (m²)", 4.0, 14.0, 10.0, step=0.5)
-    crr = st.slider(
-        "Rolling resistance C_rr",
-        0.004,
-        0.020,
-        0.010,
-        step=0.001,
-        format="%.3f",
-    )
-
-    st.markdown(
-        "<div class='side-group'>Launch behavior</div>", unsafe_allow_html=True
-    )
-    accel_rate = st.slider(
-        "Acceleration rate (m/s²)", 0.30, 3.00, 1.36, step=0.02
-    )
+    l1, l2, l3, l4 = st.columns(4)
+    with l1:
+      cd = st.slider("Drag coefficient Cd", 0.40, 1.20, 0.90, step=0.01)
+    with l2:
+      frontal_area = st.slider("Frontal area (m²)", 4.0, 14.0, 10.0, step=0.5)
+    with l3:
+      crr = st.slider(
+          "Rolling resistance C_rr",
+          0.004,
+          0.020,
+          0.010,
+          step=0.001,
+          format="%.3f",
+      )
+    with l4:
+      accel_rate = st.slider(
+          "Acceleration rate (m/s²)", 0.30, 3.00, 1.36, step=0.02
+      )
     _v_ms = avg_speed * MPH_TO_MS
     t_accel = _v_ms / accel_rate
+
+st.markdown("<div style='height:0.6rem'></div>", unsafe_allow_html=True)
 
 w_cost = st.session_state["w_cost"]
 w_mass = st.session_state["w_mass"]
@@ -672,22 +673,21 @@ def score_card(
 
 
 # ==========================================================
-# HEADER
+# HEADER — editorial masthead
 # ==========================================================
 st.markdown(
-    "<div class='topbar'>"
-    "<div class='brand'><span class='brand-mark'>\u26a1</span>"
-    "<span>Powertrain Energy Model</span></div>"
-    "<div class='byline'>A model by <b>Takuo Yamamoto</b></div>"
+    "<div class='masthead'>"
+    "<span class='mh-left'>Takuo Yamamoto</span>"
+    "<span class='mh-right'>Urban municipal truck &middot; duty-cycle study</span>"
     "</div>"
-    "<div class='eyebrow'>Urban municipal truck · duty-cycle study</div>"
-    "<div class='headline'>Powertrain Energy Model</div>"
-    "<span class='headline-accent'></span>"
-    "<div class='subhead'>A physics-driven analysis of diesel, hydrogen"
-    " fuel-cell, and battery-electric drivetrains – based on tractive energy"
-    " requirements, not spec sheets. Pick a route and costs to get your answer;"
-    " open Advanced settings in the sidebar to change the truck’s"
-    " specifications.</div>",
+    "<div class='titleblock'>"
+    "<div class='title-serif'>Powertrain Energy Model</div>"
+    "<div class='title-rule'></div>"
+    "<div class='standfirst'>A physics-driven comparison of diesel, hydrogen"
+    " fuel-cell and battery-electric drivetrains — built on tractive energy"
+    " requirements, not spec sheets. Set the route and costs below; the"
+    " truck’s specifications live under Advanced settings.</div>"
+    "</div>",
     unsafe_allow_html=True,
 )
 
@@ -802,12 +802,12 @@ with tab1:
         template="none",
         height=380,
         margin=dict(l=10, r=10, t=10, b=10),
-        font=dict(family=FONT_FAMILY, size=12, color="#c9d4e0"),
+        font=dict(family=FONT_FAMILY, size=12, color="#5c554a"),
         hoverlabel=dict(font=dict(family=FONT_FAMILY, size=13),
-            bgcolor="#1b2530", bordercolor="rgba(255,255,255,0.18)"),
+            bgcolor="#fdfaf3", bordercolor="rgba(46,42,35,0.25)"),
         legend=dict(orientation="h", y=-0.18, x=0, title=None),
-        xaxis=dict(gridcolor="rgba(255,255,255,0.07)"),
-        yaxis=dict(title="Points", gridcolor="rgba(255,255,255,0.07)"),
+        xaxis=dict(gridcolor="rgba(46,42,35,0.09)"),
+        yaxis=dict(title="Points", gridcolor="rgba(46,42,35,0.09)"),
         plot_bgcolor="rgba(0,0,0,0)",
         paper_bgcolor="rgba(0,0,0,0)",
     )
@@ -843,12 +843,12 @@ with tab1:
         template="none",
         height=380,
         margin=dict(l=10, r=90, t=10, b=10),
-        font=dict(family=FONT_FAMILY, size=12, color="#c9d4e0"),
+        font=dict(family=FONT_FAMILY, size=12, color="#5c554a"),
         hoverlabel=dict(font=dict(family=FONT_FAMILY, size=13),
-            bgcolor="#1b2530", bordercolor="rgba(255,255,255,0.18)"),
-        xaxis=dict(title="MJ per day", gridcolor="rgba(255,255,255,0.07)",
+            bgcolor="#fdfaf3", bordercolor="rgba(46,42,35,0.25)"),
+        xaxis=dict(title="MJ per day", gridcolor="rgba(46,42,35,0.09)",
             range=[0, breakdown["MJ"].max() * 1.28]),
-        yaxis=dict(gridcolor="rgba(255,255,255,0.07)"),
+        yaxis=dict(gridcolor="rgba(46,42,35,0.09)"),
         plot_bgcolor="rgba(0,0,0,0)",
         paper_bgcolor="rgba(0,0,0,0)",
     )
@@ -916,14 +916,14 @@ with tab1:
   fig_p.add_hline(
       y=required_payload,
       line_dash="dash",
-      line_color="#FB7185",
+      line_color="#b3402e",
       annotation_text=f"Required payload — {required_payload:,.0f} kg",
       annotation_position="bottom right",
   )
   fig_p.add_vline(
       x=route_dist,
       line_dash="dot",
-      line_color="#94A3B8",
+      line_color="#8a8171",
       annotation_text="Your route",
       annotation_position="top left",
   )
@@ -931,17 +931,17 @@ with tab1:
       template="none",
       height=420,
       margin=dict(l=10, r=10, t=30, b=10),
-      font=dict(family=FONT_FAMILY, size=12, color="#c9d4e0"),
+      font=dict(family=FONT_FAMILY, size=12, color="#5c554a"),
       hoverlabel=dict(font=dict(family=FONT_FAMILY, size=13),
-            bgcolor="#1b2530", bordercolor="rgba(255,255,255,0.18)"),
+            bgcolor="#fdfaf3", bordercolor="rgba(46,42,35,0.25)"),
       legend=dict(orientation="h", y=1.12, x=0, title=None),
       xaxis=dict(
           title="Daily route distance (miles)",
-          gridcolor="rgba(255,255,255,0.07)",
+          gridcolor="rgba(46,42,35,0.09)",
       ),
       yaxis=dict(
           title="Payload capacity remaining (kg)",
-          gridcolor="rgba(255,255,255,0.07)",
+          gridcolor="rgba(46,42,35,0.09)",
       ),
       hovermode="x unified",
       plot_bgcolor="rgba(0,0,0,0)",
@@ -978,13 +978,13 @@ with tab1:
       template="none",
       height=420,
       margin=dict(l=10, r=10, t=10, b=10),
-      font=dict(family=FONT_FAMILY, size=12, color="#c9d4e0"),
+      font=dict(family=FONT_FAMILY, size=12, color="#5c554a"),
       hoverlabel=dict(font=dict(family=FONT_FAMILY, size=13),
-            bgcolor="#1b2530", bordercolor="rgba(255,255,255,0.18)"),
+            bgcolor="#fdfaf3", bordercolor="rgba(46,42,35,0.25)"),
       legend=dict(orientation="h", y=1.08, x=0, title=None),
-      xaxis=dict(title="Year", gridcolor="rgba(255,255,255,0.07)"),
+      xaxis=dict(title="Year", gridcolor="rgba(46,42,35,0.09)"),
       yaxis=dict(
-          title="Cumulative cost ($)", gridcolor="rgba(255,255,255,0.07)"
+          title="Cumulative cost ($)", gridcolor="rgba(46,42,35,0.09)"
       ),
       hovermode="x unified",
       plot_bgcolor="rgba(0,0,0,0)",
