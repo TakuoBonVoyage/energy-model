@@ -268,7 +268,10 @@ st.markdown(
         background: var(--surface-2);
         border-left: 1px solid var(--hairline);
       }}
-      [data-testid="stSidebar"][aria-expanded="false"] {{ transform: none !important; }}
+      [data-testid="stSidebar"][data-collapsed="true"] {{
+        transform: none !important;
+        visibility: hidden;
+      }}
       [data-testid="stSidebarResizeHandle"] {{ display: none !important; }}
       [data-testid="stSidebarCollapseButton"] [data-testid="stIconMaterial"] {{
         transform: scaleX(-1); display: inline-block;
@@ -282,7 +285,7 @@ st.markdown(
         transform: scaleX(-1); display: inline-block;
       }}
       @media (max-width: 768px) {{
-        [data-testid="stSidebar"][aria-expanded="true"] {{
+        [data-testid="stSidebar"][data-collapsed="false"] {{
           box-shadow: -1.5rem 0 2rem 0.5rem rgba(46, 42, 35, 0.18);
         }}
       }}
