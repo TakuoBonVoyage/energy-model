@@ -364,6 +364,25 @@ def clamp_weights(changed_key: str) -> None:
 
 
 # ==========================================================
+# HEADER — editorial masthead
+# ==========================================================
+st.markdown(
+    "<div class='masthead'>"
+    "<span class='mh-left'>Takuo Yamamoto</span>"
+    "<span class='mh-right'>Urban municipal truck &middot; duty-cycle study</span>"
+    "</div>"
+    "<div class='titleblock'>"
+    "<div class='title-serif'>Powertrain Energy Model</div>"
+    "<div class='title-rule'></div>"
+    "<div class='standfirst'>A physics-driven comparison of diesel, hydrogen"
+    " fuel-cell and battery-electric drivetrains — built on tractive energy"
+    " requirements, not spec sheets. Set the route and costs below; the"
+    " truck’s specifications live under Advanced settings.</div>"
+    "</div>",
+    unsafe_allow_html=True,
+)
+
+# ==========================================================
 # CONTROL PANEL — INPUTS (main flow, no sidebar)
 # ==========================================================
 with st.container(border=True):
@@ -671,25 +690,6 @@ def score_card(
     </div>
     """
 
-
-# ==========================================================
-# HEADER — editorial masthead
-# ==========================================================
-st.markdown(
-    "<div class='masthead'>"
-    "<span class='mh-left'>Takuo Yamamoto</span>"
-    "<span class='mh-right'>Urban municipal truck &middot; duty-cycle study</span>"
-    "</div>"
-    "<div class='titleblock'>"
-    "<div class='title-serif'>Powertrain Energy Model</div>"
-    "<div class='title-rule'></div>"
-    "<div class='standfirst'>A physics-driven comparison of diesel, hydrogen"
-    " fuel-cell and battery-electric drivetrains — built on tractive energy"
-    " requirements, not spec sheets. Set the route and costs below; the"
-    " truck’s specifications live under Advanced settings.</div>"
-    "</div>",
-    unsafe_allow_html=True,
-)
 
 tab1, tab2, tab3 = st.tabs(
     ["Evaluation", "Equations & methodology", "Original Google Sheet"]
