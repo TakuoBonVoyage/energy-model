@@ -17,21 +17,24 @@ st.set_page_config(
 # ==========================================================
 # DESIGN TOKENS & VIBRANT PALETTE
 # ==========================================================
-C_DIESEL = "#718096"  # Slate Gray
-C_HYDROGEN = "#2B6CB0"  # Bright Samurai / Royal Blue
-C_BATTERY = "#2F9E44"  # Vibrant Emerald Sage
+C_DIESEL = "#94A3B8"  # Bright slate (dark-theme)
+C_HYDROGEN = "#38BDF8"  # Electric sky (dark-theme)
+C_BATTERY = "#A3E635"  # Energy lime (dark-theme)
 
 PALETTE = [
-    "#2B6CB0",  # Bright Samurai Blue
-    "#2F9E44",  # Vibrant Emerald Sage
-    "#8B5CF6",  # Rich Modern Violet
-    "#E59819",  # Vibrant Warm Gold/Amber
-    "#E53E3E",  # Bright Coral Red
+    "#38BDF8",  # Electric sky
+    "#A3E635",  # Energy lime
+    "#C084FC",  # Bright violet
+    "#FBBF24",  # Warm amber
+    "#FB7185",  # Bright coral
 ]
 
 FONT_FAMILY = (
-    "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text',"
+    "'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text',"
     " 'Helvetica Neue', sans-serif"
+)
+DISPLAY_FONT = (
+    "'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif"
 )
 
 TECH_COLORS = {
@@ -43,15 +46,19 @@ TECH_COLORS = {
 st.markdown(
     f"""
     <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap');
+
       :root {{
-        color-scheme: light;
-        --ink: #17191d;
-        --subtle: #60656f;
-        --hairline: #e3e6ea;
-        --canvas: #f7f8f9;
-        --surface: #ffffff;
-        --accent: #245a8d;
-        --shadow: rgba(18, 25, 38, 0.05);
+        color-scheme: dark;
+        --ink: #e8edf3;
+        --subtle: #8b97a6;
+        --hairline: rgba(255, 255, 255, 0.09);
+        --canvas: #0e1319;
+        --surface: #151d27;
+        --surface-2: #1a2431;
+        --accent: #a3e635;
+        --glow: rgba(163, 230, 53, 0.16);
+        --danger: #fb7185;
       }}
 
       html, body, [class*="css"], .stApp {{
@@ -59,11 +66,16 @@ st.markdown(
         color: var(--ink);
       }}
 
-      .stApp {{ background: var(--canvas); }}
+      .stApp {{
+        background:
+          radial-gradient(1100px 480px at 12% -8%, rgba(163, 230, 53, 0.055), transparent 60%),
+          radial-gradient(900px 420px at 88% -6%, rgba(56, 189, 248, 0.05), transparent 55%),
+          var(--canvas);
+      }}
 
       .block-container {{
         padding-top: 2rem;
-        padding-bottom: 4rem;
+        padding-bottom: 3rem;
         max-width: 1240px;
       }}
 
@@ -85,78 +97,113 @@ st.markdown(
         color: var(--ink) !important;
       }}
 
+      .topbar {{
+        display: flex; align-items: center; justify-content: space-between;
+        gap: 1rem; margin-bottom: 2.2rem;
+      }}
+      .brand {{
+        display: flex; align-items: center; gap: 0.7rem;
+        font-family: {DISPLAY_FONT}; font-weight: 700; font-size: 0.95rem;
+        letter-spacing: 0.02em; color: var(--ink);
+      }}
+      .brand-mark {{
+        width: 26px; height: 26px; border-radius: 8px;
+        background: var(--accent); color: #10150a;
+        display: inline-flex; align-items: center; justify-content: center;
+        font-size: 0.95rem; font-weight: 700;
+        box-shadow: 0 0 18px var(--glow);
+      }}
+      .byline {{
+        font-size: 0.82rem; color: var(--subtle); letter-spacing: 0.01em;
+      }}
+      .byline b {{ color: var(--ink); font-weight: 600; }}
+
       .eyebrow {{
-        font-size: 0.74rem; font-weight: 600; letter-spacing: 0.11em;
-        text-transform: uppercase; color: var(--subtle); margin-bottom: 0.5rem;
+        font-size: 0.74rem; font-weight: 600; letter-spacing: 0.14em;
+        text-transform: uppercase; color: var(--accent); margin-bottom: 0.6rem;
       }}
       .headline {{
-        font-size: 2.5rem; font-weight: 600; letter-spacing: -0.025em;
-        line-height: 1.08; color: var(--ink); margin: 0 0 0.6rem 0;
+        font-family: {DISPLAY_FONT};
+        font-size: 3rem; font-weight: 700; letter-spacing: -0.03em;
+        line-height: 1.04; color: var(--ink); margin: 0 0 0.35rem 0;
+      }}
+      .headline-accent {{
+        display: block; height: 4px; width: 148px; border-radius: 99px;
+        background: linear-gradient(90deg, var(--accent), #38bdf8);
+        margin: 0.55rem 0 0.9rem 0; transform-origin: left center;
       }}
       .subhead {{
-        font-size: 1.05rem; font-weight: 400; color: var(--subtle);
-        letter-spacing: -0.005em; line-height: 1.55; max-width: 64ch; margin-bottom: 1.8rem;
+        font-size: 1.02rem; font-weight: 400; color: var(--subtle);
+        letter-spacing: -0.003em; line-height: 1.6; max-width: 66ch; margin-bottom: 1.9rem;
       }}
       .section-title {{
-        font-size: 1.3rem; font-weight: 600; letter-spacing: -0.015em;
+        font-family: {DISPLAY_FONT};
+        font-size: 1.32rem; font-weight: 600; letter-spacing: -0.015em;
         color: var(--ink); margin: 0 0 0.25rem 0;
       }}
       .section-note {{
-        font-size: 0.92rem; color: var(--subtle); margin-bottom: 1rem;
+        font-size: 0.9rem; color: var(--subtle); margin-bottom: 1rem;
       }}
 
       .card {{
-        background: var(--surface); border-radius: 12px; padding: 1.4rem 1.5rem;
-        border: 1px solid var(--hairline); box-shadow: 0 1px 2px var(--shadow); margin-bottom: 1rem;
+        background: var(--surface); border-radius: 14px; padding: 1.4rem 1.5rem;
+        border: 1px solid var(--hairline); margin-bottom: 1rem;
       }}
 
       .hero {{
-        background: var(--surface); border-radius: 12px; padding: 1.5rem 1.6rem;
-        border: 1px solid var(--hairline); box-shadow: 0 1px 2px var(--shadow);
+        background: linear-gradient(180deg, var(--surface-2), var(--surface));
+        border-radius: 14px; padding: 1.5rem 1.6rem;
+        border: 1px solid var(--hairline);
         margin-bottom: 1.2rem; height: 100%;
       }}
       .hero-label {{
-        font-size: 0.74rem; font-weight: 600; letter-spacing: 0.1em;
+        font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em;
         text-transform: uppercase; color: var(--subtle);
       }}
       .hero-tech {{
-        font-size: 2rem; font-weight: 600; letter-spacing: -0.02em;
-        line-height: 1.12; margin: 0.3rem 0 0.2rem 0;
+        font-family: {DISPLAY_FONT};
+        font-size: 2.3rem; font-weight: 700; letter-spacing: -0.025em;
+        line-height: 1.1; margin: 0.35rem 0 0.25rem 0;
       }}
       .hero-reason {{
-        font-size: 0.95rem; color: var(--subtle); line-height: 1.55;
-        max-width: 56ch; margin-top: 0.4rem;
+        font-size: 0.94rem; color: var(--subtle); line-height: 1.6;
+        max-width: 56ch; margin-top: 0.45rem;
       }}
       .hero-score {{
-        font-size: 3.4rem; font-weight: 600; letter-spacing: -0.035em;
+        font-family: {DISPLAY_FONT};
+        font-size: 3.6rem; font-weight: 700; letter-spacing: -0.035em;
         line-height: 1; text-align: right;
       }}
       .hero-score-unit {{
-        font-size: 1.2rem; font-weight: 500; color: var(--subtle); letter-spacing: -0.02em;
+        font-size: 1.15rem; font-weight: 500; color: var(--subtle); letter-spacing: -0.02em;
       }}
       .hero-score-cap {{
         text-align: right; font-size: 0.72rem; font-weight: 600;
-        letter-spacing: 0.08em; text-transform: uppercase; color: var(--subtle); margin-top: 0.4rem;
+        letter-spacing: 0.08em; text-transform: uppercase; color: var(--subtle); margin-top: 0.45rem;
       }}
 
       .score-card {{
-        background: var(--surface); border-radius: 12px; padding: 1.2rem 1.3rem 1.3rem 1.3rem;
-        border: 1px solid var(--hairline); box-shadow: 0 1px 2px var(--shadow); height: 100%;
-        transition: transform 0.18s ease, box-shadow 0.18s ease;
+        background: var(--surface); border-radius: 14px; padding: 1.2rem 1.3rem 1.3rem 1.3rem;
+        border: 1px solid var(--hairline); height: 100%;
+        transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
       }}
-      .score-card.win {{ border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }}
+      .score-card.win {{
+        border-color: rgba(163, 230, 53, 0.55);
+        box-shadow: 0 0 0 1px rgba(163, 230, 53, 0.35), 0 10px 30px rgba(163, 230, 53, 0.07);
+      }}
       .score-tech {{
         font-size: 0.95rem; font-weight: 600; letter-spacing: -0.005em;
         color: var(--ink); display: flex; align-items: center; gap: 0.5rem;
       }}
       .dot {{ width: 8px; height: 8px; border-radius: 50%; display: inline-block; }}
       .score-value {{
-        font-size: 2.6rem; font-weight: 600; letter-spacing: -0.03em;
+        font-family: {DISPLAY_FONT};
+        font-size: 2.7rem; font-weight: 700; letter-spacing: -0.03em;
         line-height: 1.05; margin-top: 0.4rem;
       }}
       .score-sub {{ font-size: 0.8rem; color: var(--subtle); letter-spacing: 0.01em; }}
       .bar-track {{
-        height: 5px; border-radius: 99px; background: var(--hairline);
+        height: 5px; border-radius: 99px; background: rgba(255, 255, 255, 0.1);
         margin: 0.85rem 0 0.75rem 0; overflow: hidden;
       }}
       .bar-fill {{ height: 5px; border-radius: 99px; }}
@@ -168,24 +215,24 @@ st.markdown(
       .kv span:first-child {{ color: var(--subtle); }}
       .kv span:last-child {{ font-weight: 500; color: var(--ink); font-variant-numeric: tabular-nums; }}
       .score-card.out {{ opacity: 0.55; }}
-      .kv span.warn {{ color: #c53030; font-weight: 600; }}
+      .kv span.warn {{ color: var(--danger); font-weight: 600; }}
       .badge {{
-        display: inline-block; background: rgba(36, 90, 141, 0.09); color: var(--accent);
-        border: 1px solid rgba(36, 90, 141, 0.3);
+        display: inline-block; background: rgba(163, 230, 53, 0.12); color: var(--accent);
+        border: 1px solid rgba(163, 230, 53, 0.4);
         font-size: 0.66rem; font-weight: 700; letter-spacing: 0.07em;
         text-transform: uppercase; padding: 0.18rem 0.5rem; border-radius: 99px; margin-left: 0.4rem;
       }}
       .badge.fail {{
-        background: rgba(197, 48, 48, 0.07); color: #c53030;
-        border-color: rgba(197, 48, 48, 0.35);
+        background: rgba(251, 113, 133, 0.1); color: var(--danger);
+        border-color: rgba(251, 113, 133, 0.4);
       }}
 
       .budget-track {{
-        height: 6px; border-radius: 99px; background: var(--hairline);
+        height: 6px; border-radius: 99px; background: rgba(255, 255, 255, 0.1);
         overflow: hidden; margin: 0.4rem 0 0.35rem 0;
       }}
       .budget-fill {{ height: 6px; border-radius: 99px; background: var(--accent); }}
-      .budget-fill.full {{ background: #2F9E44; }}
+      .budget-fill.full {{ background: var(--accent); }}
       .budget-text {{ font-size: 0.8rem; color: var(--subtle); }}
 
       .eq-num {{
@@ -193,12 +240,13 @@ st.markdown(
         color: var(--accent); text-transform: uppercase;
       }}
       .eq-title {{
+        font-family: {DISPLAY_FONT};
         font-size: 1.05rem; font-weight: 600; letter-spacing: -0.01em;
         color: var(--ink); margin: 0.15rem 0 0.1rem 0;
       }}
 
       [data-testid="stSidebar"] {{
-        background: var(--surface); border-right: 1px solid var(--hairline);
+        background: #11181f; border-right: 1px solid var(--hairline);
       }}
       [data-testid="stSidebar"] .block-container {{ padding-top: 1.5rem; }}
 
@@ -216,31 +264,47 @@ st.markdown(
       }}
       .stTabs [aria-selected="true"] {{ color: var(--ink); font-weight: 600; border-bottom-color: var(--accent) !important; }}
 
-      .stSlider [data-baseweb="slider"] div[role="slider"] {{
-        box-shadow: 0 1px 3px var(--shadow);
-      }}
       div[data-testid="stDataFrame"] {{ border-radius: 10px; overflow: hidden; border: 1px solid var(--hairline); }}
       hr.rule {{ border: none; border-top: 1px solid var(--hairline); margin: 2.2rem 0 1.6rem 0; }}
 
+      .footer {{
+        margin-top: 3rem; padding-top: 1.4rem;
+        border-top: 1px solid var(--hairline);
+        display: flex; flex-wrap: wrap; gap: 0.4rem 1.4rem;
+        align-items: baseline; justify-content: space-between;
+        font-size: 0.82rem; color: var(--subtle);
+      }}
+      .footer b {{ color: var(--ink); font-weight: 600; }}
+      .footer a {{ color: var(--accent); text-decoration: none; font-weight: 500; }}
+      .footer a:hover {{ text-decoration: underline; }}
+
       @media (prefers-reduced-motion: no-preference) {{
         @keyframes riseIn {{
-          from {{ opacity: 0; transform: translateY(10px); }}
+          from {{ opacity: 0; transform: translateY(12px); }}
           to {{ opacity: 1; transform: none; }}
         }}
         @keyframes barGrow {{
           from {{ width: 0; }}
         }}
+        @keyframes sweepIn {{
+          from {{ transform: scaleX(0); }}
+          to {{ transform: scaleX(1); }}
+        }}
         .hero, .score-card, .card {{
           animation: riseIn 0.45s ease both;
         }}
+        .headline-accent {{ animation: sweepIn 0.7s cubic-bezier(0.2, 0.6, 0.2, 1) 0.1s both; }}
         [data-testid="column"]:nth-child(1) .score-card {{ animation-delay: 0.05s; }}
         [data-testid="column"]:nth-child(2) .score-card {{ animation-delay: 0.12s; }}
         [data-testid="column"]:nth-child(3) .score-card {{ animation-delay: 0.19s; }}
         .score-card:hover {{
           transform: translateY(-2px);
-          box-shadow: 0 6px 16px var(--shadow);
+          border-color: rgba(255, 255, 255, 0.22);
         }}
-        .score-card.win:hover {{ box-shadow: 0 0 0 1px var(--accent), 0 6px 16px var(--shadow); }}
+        .score-card.win:hover {{
+          border-color: rgba(163, 230, 53, 0.7);
+          box-shadow: 0 0 0 1px rgba(163, 230, 53, 0.45), 0 14px 34px rgba(163, 230, 53, 0.1);
+        }}
         .bar-fill, .budget-fill {{
           animation: barGrow 0.8s cubic-bezier(0.2, 0.6, 0.2, 1) both;
         }}
@@ -611,8 +675,14 @@ def score_card(
 # HEADER
 # ==========================================================
 st.markdown(
+    "<div class='topbar'>"
+    "<div class='brand'><span class='brand-mark'>\u26a1</span>"
+    "<span>Powertrain Energy Model</span></div>"
+    "<div class='byline'>A model by <b>Takuo Yamamoto</b></div>"
+    "</div>"
     "<div class='eyebrow'>Urban municipal truck · duty-cycle study</div>"
-    "<div class='headline'>Powertrain<br>Energy Model</div>"
+    "<div class='headline'>Powertrain Energy Model</div>"
+    "<span class='headline-accent'></span>"
     "<div class='subhead'>A physics-driven analysis of diesel, hydrogen"
     " fuel-cell, and battery-electric drivetrains – based on tractive energy"
     " requirements, not spec sheets. Pick a route and costs to get your answer;"
@@ -732,11 +802,12 @@ with tab1:
         template="none",
         height=380,
         margin=dict(l=10, r=10, t=10, b=10),
-        font=dict(family=FONT_FAMILY, size=12),
-        hoverlabel=dict(font=dict(family=FONT_FAMILY, size=13)),
+        font=dict(family=FONT_FAMILY, size=12, color="#c9d4e0"),
+        hoverlabel=dict(font=dict(family=FONT_FAMILY, size=13),
+            bgcolor="#1b2530", bordercolor="rgba(255,255,255,0.18)"),
         legend=dict(orientation="h", y=-0.18, x=0, title=None),
-        xaxis=dict(gridcolor="rgba(150,150,150,0.15)"),
-        yaxis=dict(title="Points", gridcolor="rgba(150,150,150,0.15)"),
+        xaxis=dict(gridcolor="rgba(255,255,255,0.07)"),
+        yaxis=dict(title="Points", gridcolor="rgba(255,255,255,0.07)"),
         plot_bgcolor="rgba(0,0,0,0)",
         paper_bgcolor="rgba(0,0,0,0)",
     )
@@ -772,11 +843,12 @@ with tab1:
         template="none",
         height=380,
         margin=dict(l=10, r=90, t=10, b=10),
-        font=dict(family=FONT_FAMILY, size=12),
-        hoverlabel=dict(font=dict(family=FONT_FAMILY, size=13)),
-        xaxis=dict(title="MJ per day", gridcolor="rgba(150,150,150,0.15)",
+        font=dict(family=FONT_FAMILY, size=12, color="#c9d4e0"),
+        hoverlabel=dict(font=dict(family=FONT_FAMILY, size=13),
+            bgcolor="#1b2530", bordercolor="rgba(255,255,255,0.18)"),
+        xaxis=dict(title="MJ per day", gridcolor="rgba(255,255,255,0.07)",
             range=[0, breakdown["MJ"].max() * 1.28]),
-        yaxis=dict(gridcolor="rgba(150,150,150,0.15)"),
+        yaxis=dict(gridcolor="rgba(255,255,255,0.07)"),
         plot_bgcolor="rgba(0,0,0,0)",
         paper_bgcolor="rgba(0,0,0,0)",
     )
@@ -844,14 +916,14 @@ with tab1:
   fig_p.add_hline(
       y=required_payload,
       line_dash="dash",
-      line_color="#E53E3E",
+      line_color="#FB7185",
       annotation_text=f"Required payload — {required_payload:,.0f} kg",
       annotation_position="bottom right",
   )
   fig_p.add_vline(
       x=route_dist,
       line_dash="dot",
-      line_color="#718096",
+      line_color="#94A3B8",
       annotation_text="Your route",
       annotation_position="top left",
   )
@@ -859,16 +931,17 @@ with tab1:
       template="none",
       height=420,
       margin=dict(l=10, r=10, t=30, b=10),
-      font=dict(family=FONT_FAMILY, size=12),
-      hoverlabel=dict(font=dict(family=FONT_FAMILY, size=13)),
+      font=dict(family=FONT_FAMILY, size=12, color="#c9d4e0"),
+      hoverlabel=dict(font=dict(family=FONT_FAMILY, size=13),
+            bgcolor="#1b2530", bordercolor="rgba(255,255,255,0.18)"),
       legend=dict(orientation="h", y=1.12, x=0, title=None),
       xaxis=dict(
           title="Daily route distance (miles)",
-          gridcolor="rgba(150,150,150,0.15)",
+          gridcolor="rgba(255,255,255,0.07)",
       ),
       yaxis=dict(
           title="Payload capacity remaining (kg)",
-          gridcolor="rgba(150,150,150,0.15)",
+          gridcolor="rgba(255,255,255,0.07)",
       ),
       hovermode="x unified",
       plot_bgcolor="rgba(0,0,0,0)",
@@ -905,12 +978,13 @@ with tab1:
       template="none",
       height=420,
       margin=dict(l=10, r=10, t=10, b=10),
-      font=dict(family=FONT_FAMILY, size=12),
-      hoverlabel=dict(font=dict(family=FONT_FAMILY, size=13)),
+      font=dict(family=FONT_FAMILY, size=12, color="#c9d4e0"),
+      hoverlabel=dict(font=dict(family=FONT_FAMILY, size=13),
+            bgcolor="#1b2530", bordercolor="rgba(255,255,255,0.18)"),
       legend=dict(orientation="h", y=1.08, x=0, title=None),
-      xaxis=dict(title="Year", gridcolor="rgba(150,150,150,0.15)"),
+      xaxis=dict(title="Year", gridcolor="rgba(255,255,255,0.07)"),
       yaxis=dict(
-          title="Cumulative cost ($)", gridcolor="rgba(150,150,150,0.15)"
+          title="Cumulative cost ($)", gridcolor="rgba(255,255,255,0.07)"
       ),
       hovermode="x unified",
       plot_bgcolor="rgba(0,0,0,0)",
@@ -1059,14 +1133,18 @@ with tab3:
 
   st.markdown(
       f"<iframe src='{google_sheets_embed_url}' width='100%' height='800'"
-      " style='border:1px solid var(--hairline);border-radius:18px;"
-      "box-shadow:0 8px 28px var(--shadow);'></iframe>",
+      " style='border:1px solid var(--hairline);border-radius:14px;"
+      "background:#ffffff;'></iframe>",
       unsafe_allow_html=True,
   )
 
 st.markdown(
-    "<div style='text-align:center;color:var(--subtle);font-size:0.8rem;"
-    "margin-top:2.5rem;'>Energy figures are modeled estimates for comparison "
-    "between powertrains, not manufacturer specifications.</div>",
+    "<div class='footer'>"
+    "<span>Built by <b>Takuo Yamamoto</b></span>"
+    "<span>Energy figures are modeled estimates for comparison between "
+    "powertrains, not manufacturer specifications.</span>"
+    "<span><a href='https://takuobonvoyage.github.io/' target='_blank'>"
+    "takuobonvoyage.github.io \u2197</a></span>"
+    "</div>",
     unsafe_allow_html=True,
 )
