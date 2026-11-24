@@ -262,31 +262,24 @@ st.markdown(
       .footer a {{ color: var(--accent); text-decoration: none; font-weight: 500; }}
       .footer a:hover {{ text-decoration: underline; }}
 
-      /* Settings rail on the right (was the left sidebar in earlier versions) */
-      [data-testid="stAppViewContainer"] {{ flex-direction: row-reverse; }}
+      /* Settings rail on the left (Streamlit's default sidebar side) */
       [data-testid="stSidebar"] {{
         background: var(--surface-2);
-        border-left: 1px solid var(--hairline);
+        border-right: 1px solid var(--hairline);
       }}
       [data-testid="stSidebar"][data-collapsed="true"] {{
         transform: none !important;
         visibility: hidden;
       }}
       [data-testid="stSidebarResizeHandle"] {{ display: none !important; }}
-      [data-testid="stSidebarCollapseButton"] [data-testid="stIconMaterial"] {{
-        transform: scaleX(-1); display: inline-block;
-      }}
       button[data-testid="stExpandSidebarButton"] {{
-        position: fixed; right: 0.7rem; top: 3.6rem; z-index: 99998;
+        position: fixed; left: 0.7rem; top: 3.6rem; z-index: 99998;
         background: var(--surface); border: 1px solid var(--hairline);
         border-radius: 999px;
       }}
-      button[data-testid="stExpandSidebarButton"] [data-testid="stIconMaterial"] {{
-        transform: scaleX(-1); display: inline-block;
-      }}
       @media (max-width: 768px) {{
         [data-testid="stSidebar"][data-collapsed="false"] {{
-          box-shadow: -1.5rem 0 2rem 0.5rem rgba(46, 42, 35, 0.18);
+          box-shadow: 1.5rem 0 2rem 0.5rem rgba(46, 42, 35, 0.18);
         }}
       }}
 
@@ -412,7 +405,7 @@ st.markdown(
 )
 
 # ==========================================================
-# SETTINGS RAIL — INPUTS (right-hand sidebar)
+# SETTINGS RAIL — INPUTS (left-hand sidebar)
 # ==========================================================
 with st.sidebar:
   st.markdown(
